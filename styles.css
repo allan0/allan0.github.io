@@ -286,6 +286,81 @@ footer {
     40% { transform: translateY(-20px); }
     60% { transform: translateY(-10px); }
 }
+.contact-float {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.contact-content {
+    display: none;
+    flex-direction: column;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.contact-float.active .contact-content {
+    display: flex;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    margin: 5px 0;
+    text-decoration: none;
+    color: #333;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.contact-item:hover {
+    background: #f0f0f0;
+}
+
+.contact-item.email {
+    background: #f8e1e1;
+}
+
+.contact-item.telegram {
+    background: #e1f0f8;
+}
+
+.contact-item.whatsapp {
+    background: #e1f8e1;
+}
+
+.contact-toggle {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-weight: 500;
+}
+
+.contact-toggle:hover {
+    background: #0056b3;
+}
+
+/* Dark mode styles */
+body.dark-mode .contact-content {
+    background: #333;
+}
+
+body.dark-mode .contact-item {
+    color: #fff;
+}
+
+body.dark-mode .contact-item:hover {
+    background: #444;
+}
 
 /* Typing animation (simulating geek at work) */
 @keyframes typing {
