@@ -135,10 +135,27 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const terminalText = document.querySelector('.terminal-text');
     const commands = ['$ run', '$ exec', '$ load', '$ ping'];
-    let index = 0;
+    let commandIndex = 0;
+    let charIndex = 0;
 
-    setInterval(() => {
-        terminalText.textContent = commands[index];
-        index = (index + 1) % commands.length;
-    }, 1000); // Change command every 1 second
+    function typeCommand() {
+        const currentCommand = commands[commandIndex];
+        
+        // If we haven't finished typing the current command
+        if (charIndex <= currentCommand.length) {
+            terminalText.textContent = currentCommand.slice(0, charIndex);
+            charIndex++;
+            setTimeout(typeCommand, 100); // Type next character after 100ms
+        } else {
+            // Wait 1 second before moving to the next command
+            setTimeout(() => {
+                charIndex = 0; // Reset character index
+                commandIndex = (commandIndex + 1) % commands.length; // Move to next command
+                typeCommand(); // Start typing the next command
+            }, 1000); // 1-second pause between commands
+        }
+    }
+
+    // Start the typing animation
+    typeCommand();
 });
