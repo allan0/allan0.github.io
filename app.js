@@ -116,3 +116,19 @@ function displayAnalytics(data) {
         }, index * 300); // Stagger by 300ms
     });
 }
+// Contact button toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const contactFloat = document.querySelector('.contact-float');
+    const contactToggle = document.querySelector('.contact-toggle');
+
+    contactToggle.addEventListener('click', function() {
+        contactFloat.classList.toggle('active');
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!contactFloat.contains(event.target) && contactFloat.classList.contains('active')) {
+            contactFloat.classList.remove('active');
+        }
+    });
+});
