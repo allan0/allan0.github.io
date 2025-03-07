@@ -274,141 +274,57 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start the typing animation
     typeCommand();
 });
-/* Blog Section */
-.blog-section {
-    padding: 40px 20px;
-    background: #f9f9f9;
-    border-bottom: 1px solid #ddd;
-}
+document.addEventListener('DOMContentLoaded', function() {
+    // Existing code (Telegram bot, Buy Me a Coffee, etc.) remains above
 
-.blog-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
+    // Carousel Logic
+    const carouselInner = document.querySelector('.carousel-inner');
+    const carouselItems = document.querySelectorAll('.carousel-item');
+    const prevBtn = document.querySelector('.carousel-control.prev');
+    const nextBtn = document.querySelector('.carousel-control.next');
+    let currentIndex = 0;
 
-.blog-header h2 {
-    font-size: 28px;
-    margin: 0;
-}
-
-.btn-secondary {
-    background: #6c757d;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.btn-secondary:hover {
-    background: #5a6268;
-}
-
-.blog-content {
-    display: flex;
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.carousel {
-    position: relative;
-    width: 50%;
-    overflow: hidden;
-    border-radius: 8px;
-}
-
-.carousel-inner {
-    display: flex;
-    transition: transform 0.5s ease;
-}
-
-.carousel-item {
-    min-width: 100%;
-    height: 300px;
-}
-
-.carousel-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.carousel-item iframe {
-    width: 100%;
-    height: 100%;
-}
-
-.carousel-control {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.prev { left: 10px; }
-.next { right: 10px; }
-
-.blog-text {
-    width: 50%;
-}
-
-.blog-text h3 {
-    font-size: 22px;
-    margin-bottom: 10px;
-}
-
-.blog-text p {
-    font-size: 16px;
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-
-.share-btn {
-    background: #007bff;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.share-btn:hover {
-    background: #0056b3;
-}
-
-/* Dark Mode */
-body.dark-mode .blog-section {
-    background: #222;
-    border-bottom: 1px solid #444;
-}
-
-body.dark-mode .blog-text {
-    color: #fff;
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-    .blog-content {
-        flex-direction: column;
+    function updateCarousel() {
+        carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
-    .carousel, .blog-text {
-        width: 100%;
-    }
-    .carousel-item {
-        height: 200px;
-    }
-    .blog-header {
-        flex-direction: column;
-        gap: 10px;
-    }
-}
+
+    prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex > 0) ? currentIndex - 1 : carouselItems.length - 1;
+        updateCarousel();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex < carouselItems.length - 1) ? currentIndex + 1 : 0;
+        updateCarousel();
+    });
+
+    // Auto-slide every 5 seconds
+    setInterval(() => {
+        currentIndex = (currentIndex < carouselItems.length - 1) ? currentIndex + 1 : 0;
+        updateCarousel();
+    }, 5000);
+
+    // Share Button Logic
+    const shareBtn = document.querySelector('.share-btn');
+    shareBtn.addEventListener('click', () => {
+        const url = window.location.href;
+        const title = 'Sustainable AI & Blockchain Insights';
+        if (navigator.share) {
+            navigator.share({
+                title: title,
+                text: 'Check out this blog on Sustainable AI and Blockchain Technology!',
+                url: url
+            }).catch(error => console.error('Share error:', error));
+        } else {
+            alert('Share this link: ' + url); // Fallback for unsupported browsers
+        }
+    });
+
+    // New Blog Button (Placeholder - could open a form or link elsewhere)
+    const newBlogBtn = document.getElementById('newBlogBtn');
+    newBlogBtn.addEventListener('click', () => {
+        alert('Create a new blog post coming soon!'); // Replace with actual functionality
+    });
+
+    // Rest of your existing code (terminal animation, etc.) below
+});
