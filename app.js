@@ -154,6 +154,121 @@ document.addEventListener('DOMContentLoaded', function() {
                 typeCommand(); // Start typing the next command
             }, 1000); // 1-second pause between commands
         }
+        document.addEventListener('DOMContentLoaded', function() {
+    // Telegram Bot Configuration for Help Form
+    const botToken = 'YOUR_BOT_TOKEN_HERE';
+    const chatId = 'YOUR_CHAT_ID_HERE';
+
+    // Buy Me a Coffee Button
+    const buyMeCoffeeBtn = document.getElementById('buyMeCoffee');
+    const walletAddress = 'UQC7T3cHqE85iBTvZzXC_jkTEwGu0eCInwLP9gJ5D3qcASPi'; // Your TON wallet
+
+    buyMeCoffeeBtn.addEventListener('click', function() {
+        // Create a TON payment URL (Telegram-compatible)
+        const amount = '1'; // Example: 1 USDT (adjust as needed)
+        const paymentUrl = `https://t.me/wallet?start=send&address=${walletAddress}&amount=${amount}&asset=USDT`;
+
+        // Open the URL in a new tab/window or prompt user
+        window.open(paymentUrl, '_blank');
+
+        // Optional: Notify via Telegram bot that someone clicked the button
+        const notifyUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+        fetch(notifyUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: `Someone clicked 'Buy Me a Coffee' to send ${amount} USDT to ${walletAddress}`
+            })
+        })
+        .catch(error => console.error('Notification error:', error));
+    });
+
+    // Modal and Form Handling
+    const helpModal = document.getElementById('helpModal');
+    const helpForm = document.getElementById('helpForm');
+    const helpButtons = document.querySelectorAll('.help-btn');
+    const closeBtn = document.querySelector('.close');
+
+    helpButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            helpModal.style.display = 'block';
+        });
+    });
+
+    closeBtn.addEventListener('click', function() {
+        helpModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === helpModal) {
+            helpModal.style.display = 'none';
+        }
+    });
+
+    helpForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const message = document.getElementById('helpMessage').value;
+        if (message.trim() === '') {
+            alert('Please enter a request!');
+            return;
+        }
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: chatId, text: `New Help Request:\n${message}` })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                alert('Request sent successfully!');
+                helpForm.reset();
+                helpModal.style.display = 'none';
+            } else {
+                alert('Failed to send request: ' + data.description);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while sending your request.');
+        });
+    });
+
+    // Contact Button Toggle
+    const contactFloat = document.querySelector('.contact-float');
+    const contactToggle = document.querySelector('.contact-toggle');
+    contactToggle.addEventListener('click', function() {
+        contactFloat.classList.toggle('active');
+    });
+    document.addEventListener('click', function(event) {
+        if (!contactFloat.contains(event.target) && contactFloat.classList.contains('active')) {
+            contactFloat.classList.remove('active');
+        }
+    });
+
+    // Terminal Text Animation
+    const terminalText = document.querySelector('.terminal-text');
+    const commands = ['$ run', '$ exec', '$ load', '$ ping'];
+    let commandIndex = 0;
+    let charIndex = 0;
+
+    function typeCommand() {
+        const currentCommand = commands[commandIndex];
+        if (charIndex <= currentCommand.length) {
+            terminalText.textContent = currentCommand.slice(0, charIndex);
+            charIndex++;
+            setTimeout(typeCommand, 100);
+        } else {
+            setTimeout(() => {
+                charIndex = 0;
+                commandIndex = (commandIndex + 1) % commands.length;
+                typeCommand();
+            }, 1000);
+        }
+    }
+    typeCommand();
+});
     }
 
     // Start the typing animation
