@@ -132,3 +132,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const terminalText = document.querySelector('.terminal-text');
+    const commands = ['$ run', '$ exec', '$ load', '$ ping'];
+    let index = 0;
+
+    setInterval(() => {
+        terminalText.textContent = commands[index];
+        index = (index + 1) % commands.length;
+    }, 1000); // Change command every 1 second
+});
