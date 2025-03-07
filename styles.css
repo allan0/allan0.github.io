@@ -367,3 +367,20 @@ body.dark-mode .contact-item:hover {
     0% { transform: rotate(-5deg); }
     100% { transform: rotate(5deg); }
 }
+.mascot {
+    position: fixed;
+    bottom: 80px; /* Adjusted to avoid overlapping with contact button */
+    right: 20px;
+    z-index: 999;
+}
+
+.mascot-image {
+    width: 100px; /* Adjust size as needed */
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.mascot-image:hover {
+    transform: scale(1.1); /* Optional hover effect */
+}
