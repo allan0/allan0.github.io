@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A+ Analytics Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-mode">
+    <header>
+        <button id="connectWallet" class="btn btn-primary">Connect Wallet</button>
+        <h1>A+ Analytics</h1>
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+            </label>
+        </div>
+    </header>
+
+    <main>
+        <section id="cybersecurity" class="analytics-section">
+            <h2>Cybersecurity AI Analytics</h2>
+            <div class="analytics-content">
+                <!-- Content will be dynamically populated -->
+            </div>
+            <button class="help-btn">How may I help you?</button>
+        </section>
+
+        <section id="aiEngineering" class="analytics-section">
+            <h2>AI Engineering Analytics</h2>
+            <div class="analytics-content">
+                <!-- Content will be dynamically populated -->
+            </div>
+            <button class="help-btn">How may I help you?</button>
+        </section>
+
+        <section id="dataScience" class="analytics-section">
+            <h2>Data Science Analytics</h2>
+            <div class="analytics-content">
+                <!-- Content will be dynamically populated -->
+            </div>
+            <button class="help-btn">How may I help you?</button>
+        </section>
+
+        <section id="blockchain" class="analytics-section">
+            <h2>Blockchain Technology Analytics</h2>
+            <div class="analytics-content">
+                <!-- Content will be dynamically populated -->
+            </div>
+            <button class="help-btn">How may I help you?</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 A+ Analytics. All rights reserved.</p>
+        <p>Created by Allan Nguu</p>
+    </footer>
+
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>How may I help you?</h2>
+            <form id="helpForm">
+                <textarea id="helpMessage" rows="4" placeholder="Enter your question or request"></textarea>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
