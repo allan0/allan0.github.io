@@ -1,10 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Constants
-    const botToken = 'YOUR_BOT_TOKEN_HERE'; // Replace with your Telegram bot token
-    const chatId = 'YOUR_CHAT_ID_HERE'; // Replace with your Telegram chat ID
-    const walletAddress = 'UQC7T3cHqE85iBTvZzXC_jkTEwGu0eCInwLP9gJ5D3qcASPi'; // Your TON wallet
+    const botToken = 'YOUR_BOT_TOKEN_HERE';
+    const chatId = 'YOUR_CHAT_ID_HERE';
+    const walletAddress = 'UQC7T3cHqE85iBTvZzXC_jkTEwGu0eCInwLP9gJ5D3qcASPi';
 
-    // DOM Elements
     const themeToggle = document.getElementById('checkbox');
     const buyMeCoffeeBtn = document.getElementById('buyMeCoffee');
     const helpBtns = document.querySelectorAll('.help-btn');
@@ -20,45 +18,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextBtn = document.querySelector('.carousel-control.next');
     const shareBtn = document.querySelector('.share-btn');
     const newBlogBtn = document.getElementById('newBlogBtn');
+    const videos = document.querySelectorAll('.carousel-item video');
 
-    // Theme Toggle
-    themeToggle.addEventListener('change', () => {
-        document.body.classList.toggle('dark-mode');
-    });
+    themeToggle.addEventListener('change', () => document.body.classList.toggle('dark-mode'));
 
-    // Buy Me a Coffee
     buyMeCoffeeBtn.addEventListener('click', () => {
-        const amount = '1'; // Adjustable amount in USDT
-        const paymentUrl = `https://t.me/wallet?start=send&address=${walletAddress}&amount=${amount}&asset=USDT`;
-        window.open(paymentUrl, '_blank');
-
-        // Notify via Telegram
+        const amount = '1';
+        window.open(`https://t.me/wallet?start=send&address=${walletAddress}&amount=${amount}&asset=USDT`, '_blank');
         fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: chatId,
-                text: `Someone clicked 'Buy Me a Coffee' to send ${amount} USDT to ${walletAddress}`
-            })
+            body: JSON.stringify({ chat_id: chatId, text: `Someone clicked 'Buy Me a Coffee' to send ${amount} USDT to ${walletAddress}` })
         }).catch(error => console.error('Notification error:', error));
     });
 
-    // Modal Functionality
-    helpBtns.forEach(btn => {
-        btn.addEventListener('click', () => modal.style.display = 'block');
-    });
+    helpBtns.forEach(btn => btn.addEventListener('click', () => modal.style.display = 'block'));
     closeBtn.addEventListener('click', () => modal.style.display = 'none');
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) modal.style.display = 'none';
-    });
+    window.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
 
-    helpForm.addEventListener('submit', (e) => {
+    helpForm.addEventListener('submit', e => {
         e.preventDefault();
         const message = document.getElementById('helpMessage').value.trim();
-        if (!message) {
-            alert('Please enter a request!');
-            return;
-        }
+        if (!message) return alert('Please enter a request!');
         fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -80,15 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Contact Float Toggle
     contactToggle.addEventListener('click', () => contactFloat.classList.toggle('active'));
-    document.addEventListener('click', (e) => {
+    document.addEventListener('click', e => {
         if (!contactFloat.contains(e.target) && contactFloat.classList.contains('active')) {
             contactFloat.classList.remove('active');
         }
     });
 
-    // Terminal Text Animation
     const commands = ['$ run', '$ exec', '$ load', '$ ping'];
     let commandIndex = 0, charIndex = 0;
     function typeCommand() {
@@ -107,10 +86,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     typeCommand();
 
-    // Carousel Logic
     let currentIndex = 0, autoSlide;
     function updateCarousel() {
         carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+        videos.forEach((video, index) => {
+            if (index === currentIndex) video.play();
+            else video.pause();
+        });
     }
     function nextSlide() {
         currentIndex = (currentIndex < carouselItems.length - 1) ? currentIndex + 1 : 0;
@@ -123,10 +105,16 @@ document.addEventListener('DOMContentLoaded', () => {
     prevBtn.addEventListener('click', prevSlide);
     nextBtn.addEventListener('click', nextSlide);
     autoSlide = setInterval(nextSlide, 5000);
-    carouselInner.addEventListener('mouseover', () => clearInterval(autoSlide));
-    carouselInner.addEventListener('mouseout', () => autoSlide = setInterval(nextSlide, 5000));
+    carouselInner.addEventListener('mouseover', () => {
+        clearInterval(autoSlide);
+        videos.forEach(video => video.pause());
+    });
+    carouselInner.addEventListener('mouseout', () => {
+        autoSlide = setInterval(nextSlide, 5000);
+        updateCarousel();
+    });
+    updateCarousel();
 
-    // Share Button
     shareBtn.addEventListener('click', () => {
         const url = window.location.href;
         const title = 'Sustainable AI & Blockchain Insights';
@@ -138,12 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // New Blog Button (Placeholder)
-    newBlogBtn.addEventListener('click', () => {
-        alert('Create a new blog post coming soon!');
-    });
+    newBlogBtn.addEventListener('click', () => alert('Create a new blog post coming soon!'));
 
-    // Fetch and Display Analytics
     async function fetchAnalyticsData() {
         try {
             const response = await fetch('/api/analytics');
@@ -152,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
             displayAnalytics(data);
         } catch (error) {
             console.error('Error fetching analytics data:', error);
-            // Fallback data
             displayAnalytics({
                 cybersecurity: [10, 20, 15, 25, 30, 35],
                 aiEngineering: [15, 25, 20, 30, 35, 40],
@@ -163,20 +146,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayAnalytics(data) {
-        const sections = ['cybersecurity', 'aiEngineering', 'dataScience', 'blockchain'];
-        sections.forEach((section, index) => {
-            const content = document.querySelector(`#${section} .analytics-content`);
-            const canvas = document.createElement('canvas');
-            content.appendChild(canvas);
+        const sections = [
+            { id: 'cybersecurity', canvasId: 'cyberChart' },
+            { id: 'aiEngineering', canvasId: 'aiChart' },
+            { id: 'dataScience', canvasId: 'dataChart' },
+            { id: 'blockchain', canvasId: 'blockChart' }
+        ];
 
+        sections.forEach((section, index) => {
+            const canvas = document.getElementById(section.canvasId);
+            if (!canvas) return;
             setTimeout(() => {
                 new Chart(canvas, {
                     type: 'bar',
                     data: {
                         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                         datasets: [{
-                            label: `${section.charAt(0).toUpperCase() + section.slice(1)} Metrics`,
-                            data: data[section] || [10, 20, 15, 25, 30, 35],
+                            label: `${section.id.charAt(0).toUpperCase() + section.id.slice(1)} Metrics`,
+                            data: data[section.id] || [10, 20, 15, 25, 30, 35],
                             backgroundColor: 'rgba(54, 162, 235, 0.5)',
                             borderColor: 'rgba(54, 162, 235, 1)',
                             borderWidth: 1
@@ -188,43 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         animation: { duration: 1000, easing: 'easeOutBounce' }
                     }
                 });
-            }, index * 300); // Staggered animation
+            }, index * 300);
         });
     }
 
-    fetchAnalyticsData(); // Initialize analytics
+    fetchAnalyticsData();
 });
-function displayAnalytics(data) {
-    const sections = [
-        { id: 'cybersecurity', canvasId: 'cyberChart' },
-        { id: 'aiEngineering', canvasId: 'aiChart' },
-        { id: 'dataScience', canvasId: 'dataChart' },
-        { id: 'blockchain', canvasId: 'blockChart' }
-    ];
-
-    sections.forEach((section, index) => {
-        const canvas = document.getElementById(section.canvasId);
-        if (!canvas) return; // Skip if canvas not found
-
-        setTimeout(() => {
-            new Chart(canvas, {
-                type: 'bar',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: `${section.id.charAt(0).toUpperCase() + section.id.slice(1)} Metrics`,
-                        data: data[section.id] || [10, 20, 15, 25, 30, 35],
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: { y: { beginAtZero: true } },
-                    animation: { duration: 1000, easing: 'easeOutBounce' }
-                }
-            });
-        }, index * 300); // Staggered animation
-    });
-}
