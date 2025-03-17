@@ -194,3 +194,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetchAnalyticsData(); // Initialize analytics
 });
+function displayAnalytics(data) {
+    const sections = [
+        { id: 'cybersecurity', canvasId: 'cyberChart' },
+        { id: 'aiEngineering', canvasId: 'aiChart' },
+        { id: 'dataScience', canvasId: 'dataChart' },
+        { id: 'blockchain', canvasId: 'blockChart' }
+    ];
+
+    sections.forEach((section, index) => {
+        const canvas = document.getElementById(section.canvasId);
+        if (!canvas) return; // Skip if canvas not found
+
+        setTimeout(() => {
+            new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: `${section.id.charAt(0).toUpperCase() + section.id.slice(1)} Metrics`,
+                        data: data[section.id] || [10, 20, 15, 25, 30, 35],
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: { y: { beginAtZero: true } },
+                    animation: { duration: 1000, easing: 'easeOutBounce' }
+                }
+            });
+        }, index * 300); // Staggered animation
+    });
+}
