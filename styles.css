@@ -232,7 +232,18 @@ body.dark-mode footer {
     border-radius: 10px;
     width: 90%;
     max-width: 500px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);<section id="cybersecurity" class="analytics-section">
+        <h2>Cybersecurity AI Analytics</h2>
+        <div class="analytics-content">
+            <p class="description">Leveraging AI to detect and mitigate cyber threats in real-time, reducing breach risks by up to 30%.</p>
+            <div class="project-highlight">
+                <h4>Project: SecureNet AI</h4>
+                <p>Developed an AI-driven intrusion detection system that reduced false positives by 25% for a mid-sized fintech firm.</p>
+            </div>
+            <canvas id="cyberChart"></canvas>
+        </div>
+        <button class="help-btn">How may I help you?</button>
+    </section>
 }
 
 body.dark-mode .modal-content {
@@ -532,7 +543,72 @@ body.dark-mode .blog-text {
     background: #007bff;
     color: white;
 }
+.analytics-content {
+    min-height: 300px; /* Increased to accommodate new content */
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
 
+.analytics-content .description {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+body.dark-mode .analytics-content .description {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.analytics-content .project-highlight {
+    padding: 1rem;
+    background: rgba(52, 152, 219, 0.1);
+    border-radius: 5px;
+    border-left: 4px solid var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.analytics-content .project-highlight:hover {
+    transform: translateX(5px);
+}
+
+.analytics-content .project-highlight h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.analytics-content .project-highlight p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.analytics-content canvas {
+    flex-grow: 1; /* Ensures chart takes remaining space */
+    max-height: 200px; /* Limits chart height for balance */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .analytics-content {
+        min-height: 350px;
+    }
+    .analytics-content .description {
+        font-size: 0.9rem;
+    }
+    .analytics-content .project-highlight h4 {
+        font-size: 1rem;
+    }
+    .analytics-content .project-highlight p {
+        font-size: 0.85rem;
+    }
+}
 /* Responsive Design */
 @media (max-width: 768px) {
     header {
