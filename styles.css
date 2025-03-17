@@ -5,13 +5,16 @@
     --background-dark: #2c3e50;
     --text-light: #333;
     --text-dark: #ecf0f1;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-dark: rgba(255, 255, 255, 0.1);
 }
 
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
 }
 
 body.light-mode {
@@ -29,11 +32,17 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(200, 200, 200, 0.1));
     backdrop-filter: blur(10px);
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-shadow: 0 2px 10px var(--shadow-light);
+}
+
+body.dark-mode header {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(50, 50, 50, 0.2));
+    box-shadow: 0 2px 10px var(--shadow-dark);
 }
 
 h1 {
@@ -49,7 +58,11 @@ h1 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
 }
 
 .btn-primary {
@@ -61,13 +74,21 @@ h1 {
     background-color: #2980b9;
 }
 
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
 .theme-switch-wrapper {
     display: flex;
     align-items: center;
 }
 
 .theme-switch {
-    display: inline-block;
     height: 34px;
     position: relative;
     width: 60px;
@@ -85,7 +106,7 @@ h1 {
     position: absolute;
     right: 0;
     top: 0;
-    transition: .4s;
+    transition: background-color 0.4s ease;
 }
 
 .slider:before {
@@ -95,7 +116,7 @@ h1 {
     height: 26px;
     left: 4px;
     position: absolute;
-    transition: .4s;
+    transition: transform 0.4s ease;
     width: 26px;
 }
 
@@ -120,18 +141,47 @@ main {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .analytics-section {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     padding: 1.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    box-shadow: 0 4px 6px var(--shadow-light);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.dark-mode .analytics-section {
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 6px var(--shadow-dark);
 }
 
 .analytics-section:hover {
     transform: translateY(-5px);
+    box-shadow: 0 8px 16px var(--shadow-light);
+}
+
+body.dark-mode .analytics-section:hover {
+    box-shadow: 0 8px 16px var(--shadow-dark);
+}
+
+.analytics-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(52, 152, 219, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.analytics-section:hover::before {
+    opacity: 1;
 }
 
 .analytics-content {
@@ -139,14 +189,13 @@ main {
     margin-bottom: 1rem;
 }
 
+.analytics-content canvas {
+    animation: fadeIn 1s ease-in-out;
+}
+
 .help-btn {
     background-color: var(--secondary-color);
     color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 .help-btn:hover {
@@ -160,6 +209,10 @@ footer {
     backdrop-filter: blur(10px);
 }
 
+body.dark-mode footer {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -169,6 +222,7 @@ footer {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeInModal 0.3s ease;
 }
 
 .modal-content {
@@ -176,8 +230,13 @@ footer {
     margin: 15% auto;
     padding: 20px;
     border-radius: 10px;
-    width: 50%;
+    width: 90%;
     max-width: 500px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .modal-content {
+    background-color: #333;
 }
 
 .close {
@@ -192,7 +251,11 @@ footer {
 .close:focus {
     color: #000;
     text-decoration: none;
-    cursor: pointer;
+}
+
+body.dark-mode .close:hover,
+body.dark-mode .close:focus {
+    color: #fff;
 }
 
 #helpMessage {
@@ -201,51 +264,13 @@ footer {
     margin-bottom: 1rem;
     border-radius: 5px;
     border: 1px solid #ccc;
-}
-/* Animation for analytics sections */
-.analytics-section {
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    resize: vertical;
 }
 
-.analytics-section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.analytics-section::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(52, 152, 219, 0.2), transparent);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.analytics-section:hover::before {
-    opacity: 1;
-}
-
-/* Pulse animation for buttons */
-.btn, .help-btn {
-    position: relative;
-    overflow: hidden;
-}
-
-.btn::after, .help-btn::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: rgba(255, 255, 255, 0.2);
-    animation: pulse 2s infinite;
-    border-radius: 5px;
+body.dark-mode #helpMessage {
+    background-color: #444;
+    border-color: #666;
+    color: var(--text-dark);
 }
 
 @keyframes pulse {
@@ -254,119 +279,16 @@ footer {
     100% { transform: scale(1); opacity: 0; }
 }
 
-/* Fade-in animation for charts */
-.analytics-content canvas {
-    animation: fadeIn 1s ease-in-out;
-}
-
 @keyframes fadeIn {
     0% { opacity: 0; transform: translateY(20px); }
     100% { opacity: 1; transform: translateY(0); }
 }
-.mascot {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 80px;
-    height: 80px;
-    z-index: 1001;
+
+@keyframes fadeInModal {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
-.mascot-placeholder {
-    width: 100%;
-    height: 100%;
-    background: url('path-to-your-mascot-image.png') no-repeat center;
-    background-size: contain;
-    animation: bounce 2s infinite, typing 0.5s infinite alternate;
-}
-
-/* Bounce animation */
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-20px); }
-    60% { transform: translateY(-10px); }
-}
-.contact-float {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 1000;
-}
-
-.contact-content {
-    display: none;
-    flex-direction: column;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-.contact-float.active .contact-content {
-    display: flex;
-}
-
-.contact-item {
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
-    margin: 5px 0;
-    text-decoration: none;
-    color: #333;
-    border-radius: 4px;
-    transition: background 0.3s;
-}
-
-.contact-item:hover {
-    background: #f0f0f0;
-}
-
-.contact-item.email {
-    background: #f8e1e1;
-}
-
-.contact-item.telegram {
-    background: #e1f0f8;
-}
-
-.contact-item.whatsapp {
-    background: #e1f8e1;
-}
-
-.contact-toggle {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: background 0.3s;
-    font-weight: 500;
-}
-
-.contact-toggle:hover {
-    background: #0056b3;
-}
-
-/* Dark mode styles */
-body.dark-mode .contact-content {
-    background: #333;
-}
-
-body.dark-mode .contact-item {
-    color: #fff;
-}
-
-body.dark-mode .contact-item:hover {
-    background: #444;
-}
-
-/* Typing animation (simulating geek at work) */
-@keyframes typing {
-    0% { transform: rotate(-5deg); }
-    100% { transform: rotate(5deg); }
-}
 .mascot {
     position: fixed;
     bottom: 80px;
@@ -375,24 +297,19 @@ body.dark-mode .contact-item:hover {
 }
 
 .mascot-image {
-    width: 100px; /* Adjust size as needed */
+    width: 100px;
     height: auto;
-    display: block;
-    position: relative;
-    z-index: 2;
     animation: float 3s ease-in-out infinite;
 }
 
 .speech-bubble {
     position: absolute;
-    width: 80px; /* Increased width for terminal look */
+    width: 80px;
     height: 40px;
-    background: #000; /* Black background like terminal */
-    border-radius: 5px; /* Less rounded for terminal style */
-    top: -25px;
+    background: #000;
+    border-radius: 5px;
+    top: -50px;
     left: -35px;
-    z-index: 1;
-    animation: bubble 3s ease-in-out infinite;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
@@ -415,8 +332,7 @@ body.dark-mode .contact-item:hover {
 .terminal-text {
     font-family: 'Courier New', monospace;
     font-size: 14px;
-    color: #0f0; /* Green text like classic terminal */
-    animation: command 4s infinite steps(1);
+    color: #0f0;
     white-space: nowrap;
 }
 
@@ -427,54 +343,92 @@ body.dark-mode .contact-item:hover {
     animation: blink 1s infinite step-end;
 }
 
-/* Floating animation for mascot */
 @keyframes float {
     0% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0); }
 }
 
-/* Bubble animation */
-@keyframes bubble {
-    0% { transform: scale(1) translateY(0); }
-    50% { transform: scale(1.05) translateY(-5px); }
-    100% { transform: scale(1) translateY(0); }
-}
-
-/* Command cycling animation */
-@keyframes command {
-    0% { content: "$ run"; }
-    25% { content: "$ exec"; }
-    50% { content: "$ load"; }
-    75% { content: "$ ping"; }
-    100% { content: "$ run"; }
-}
-
-/* Blinking cursor */
 @keyframes blink {
     0% { opacity: 1; }
     50% { opacity: 0; }
     100% { opacity: 1; }
 }
 
-/* Dark mode adjustments (optional since terminal is already dark) */
-body.dark-mode .speech-bubble {
-    background: #000;
+.contact-float {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
 }
 
-body.dark-mode .speech-bubble::after {
-    border-top-color: #000;
+.contact-content {
+    display: none;
+    flex-direction: column;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px var(--shadow-light);
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
-body.dark-mode .terminal-text,
-body.dark-mode .cursor {
-    color: #0f0;
+.contact-float.active .contact-content {
+    display: flex;
 }
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    margin: 5px 0;
+    text-decoration: none;
+    color: #333;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.contact-item:hover {
+    background: #f0f0f0;
+}
+
+.contact-item.email { background: #f8e1e1; }
+.contact-item.telegram { background: #e1f0f8; }
+.contact-item.whatsapp { background: #e1f8e1; }
+
+.contact-toggle {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.contact-toggle:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+body.dark-mode .contact-content {
+    background: #333;
+    box-shadow: 0 2px 10px var(--shadow-dark);
+}
+
+body.dark-mode .contact-item { color: #fff; }
+body.dark-mode .contact-item:hover { background: #444; }
+
 /* Blog Section */
 .blog-section {
     padding: 40px 20px;
     background: #f9f9f9;
     border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode .blog-section {
+    background: #222;
+    border-bottom: 1px solid #444;
 }
 
 .blog-header {
@@ -482,25 +436,14 @@ body.dark-mode .cursor {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .blog-header h2 {
     font-size: 28px;
     margin: 0;
-}
-
-.btn-secondary {
-    background: #6c757d;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.btn-secondary:hover {
-    background: #5a6268;
 }
 
 .blog-content {
@@ -515,6 +458,11 @@ body.dark-mode .cursor {
     width: 50%;
     overflow: hidden;
     border-radius: 8px;
+    box-shadow: 0 4px 10px var(--shadow-light);
+}
+
+body.dark-mode .carousel {
+    box-shadow: 0 4px 10px var(--shadow-dark);
 }
 
 .carousel-inner {
@@ -525,17 +473,20 @@ body.dark-mode .cursor {
 .carousel-item {
     min-width: 100%;
     height: 300px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
-.carousel-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.carousel-item.active {
+    opacity: 1;
 }
 
+.carousel-item img,
 .carousel-item iframe {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .carousel-control {
@@ -545,9 +496,14 @@ body.dark-mode .cursor {
     background: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
-    padding: 10px;
+    padding: 10px 15px;
     cursor: pointer;
     font-size: 20px;
+    transition: background 0.3s ease;
+}
+
+.carousel-control:hover {
+    background: rgba(0, 0, 0, 0.8);
 }
 
 .prev { left: 10px; }
@@ -555,6 +511,10 @@ body.dark-mode .cursor {
 
 .blog-text {
     width: 50%;
+}
+
+body.dark-mode .blog-text {
+    color: var(--text-dark);
 }
 
 .blog-text h3 {
@@ -571,29 +531,18 @@ body.dark-mode .cursor {
 .share-btn {
     background: #007bff;
     color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
 }
 
-.share-btn:hover {
-    background: #0056b3;
-}
-
-/* Dark Mode */
-body.dark-mode .blog-section {
-    background: #222;
-    border-bottom: 1px solid #444;
-}
-
-body.dark-mode .blog-text {
-    color: #fff;
-}
-
-/* Mobile Responsiveness */
+/* Responsive Design */
 @media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    main {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
     .blog-content {
         flex-direction: column;
     }
@@ -606,5 +555,22 @@ body.dark-mode .blog-text {
     .blog-header {
         flex-direction: column;
         gap: 10px;
+    }
+    .modal-content {
+        width: 90%;
+        margin: 20% auto;
+    }
+    .mascot {
+        bottom: 60px;
+        right: 10px;
+    }
+    .mascot-image {
+        width: 80px;
+    }
+    .speech-bubble {
+        width: 60px;
+        height: 30px;
+        top: -40px;
+        left: -25px;
     }
 }
