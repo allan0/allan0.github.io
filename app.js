@@ -1,220 +1,65 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Constants
+    const botToken = 'YOUR_BOT_TOKEN_HERE'; // Replace with your Telegram bot token
+    const chatId = 'YOUR_CHAT_ID_HERE'; // Replace with your Telegram chat ID
+    const walletAddress = 'UQC7T3cHqE85iBTvZzXC_jkTEwGu0eCInwLP9gJ5D3qcASPi'; // Your TON wallet
+
+    // DOM Elements
     const themeToggle = document.getElementById('checkbox');
-    const connectWalletBtn = document.getElementById('connectWallet');
+    const buyMeCoffeeBtn = document.getElementById('buyMeCoffee');
     const helpBtns = document.querySelectorAll('.help-btn');
     const modal = document.getElementById('helpModal');
     const closeBtn = document.querySelector('.close');
     const helpForm = document.getElementById('helpForm');
+    const contactFloat = document.querySelector('.contact-float');
+    const contactToggle = document.querySelector('.contact-toggle');
+    const terminalText = document.querySelector('.terminal-text');
+    const carouselInner = document.querySelector('.carousel-inner');
+    const carouselItems = document.querySelectorAll('.carousel-item');
+    const prevBtn = document.querySelector('.carousel-control.prev');
+    const nextBtn = document.querySelector('.carousel-control.next');
+    const shareBtn = document.querySelector('.share-btn');
+    const newBlogBtn = document.getElementById('newBlogBtn');
 
-    // Theme toggle
+    // Theme Toggle
     themeToggle.addEventListener('change', () => {
         document.body.classList.toggle('dark-mode');
     });
 
-    // Connect wallet functionality (placeholder)
-    connectWalletBtn.addEventListener('click', () => {
-        alert('Wallet connection functionality to be implemented');
-    });
-
-    // Modal functionality
-    helpBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            modal.style.display = 'block';
-        });
-    });
-
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
-
-    helpForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const message = document.getElementById('helpMessage').value;
-        alert(`Your message: ${message}\nThis will be sent to our AI assistant for processing.`);
-        modal.style.display = 'none';
-        helpForm.reset();
-    });
-
-    // Fetch and display analytics data
-    fetchAnalyticsData();
-});
-
-async function fetchAnalyticsData() {
-    try {
-        const response = await fetch('/api/analytics');
-        const data = await response.json();
-        displayAnalytics(data);
-    } catch (error) {
-        console.error('Error fetching analytics data:', error);
-    }
-}
-
-function displayAnalytics(data) {
-    const sections = ['cybersecurity', 'aiEngineering', 'dataScience', 'blockchain'];
-    
-    sections.forEach(section => {
-        const content = document.querySelector(`#${section} .analytics-content`);
-        const canvas = document.createElement('canvas');
-        content.appendChild(canvas);
-
-        new Chart(canvas, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: `${section.charAt(0).toUpperCase() + section.slice(1)} Metrics`,
-                    data: data[section],
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    });
-}
-function displayAnalytics(data) {
-    const sections = ['cybersecurity', 'aiEngineering', 'dataScience', 'blockchain'];
-    
-    sections.forEach((section, index) => {
-        const content = document.querySelector(`#${section} .analytics-content`);
-        const canvas = document.createElement('canvas');
-        content.appendChild(canvas);
-
-        // Delay each chart to create a staggered effect
-        setTimeout(() => {
-            new Chart(canvas, {
-                type: 'bar',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: `${section.charAt(0).toUpperCase() + section.slice(1)} Metrics`,
-                        data: data[section] || [10, 20, 15, 25, 30, 35], // Fallback data
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: { y: { beginAtZero: true } }
-                }
-            });
-        }, index * 300); // Stagger by 300ms
-    });
-}
-// Contact button toggle
-document.addEventListener('DOMContentLoaded', function() {
-    const contactFloat = document.querySelector('.contact-float');
-    const contactToggle = document.querySelector('.contact-toggle');
-
-    contactToggle.addEventListener('click', function() {
-        contactFloat.classList.toggle('active');
-    });
-
-    // Close when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!contactFloat.contains(event.target) && contactFloat.classList.contains('active')) {
-            contactFloat.classList.remove('active');
-        }
-    });
-});
-document.addEventListener('DOMContentLoaded', function() {
-    const terminalText = document.querySelector('.terminal-text');
-    const commands = ['$ run', '$ exec', '$ load', '$ ping'];
-    let commandIndex = 0;
-    let charIndex = 0;
-
-    function typeCommand() {
-        const currentCommand = commands[commandIndex];
-        
-        // If we haven't finished typing the current command
-        if (charIndex <= currentCommand.length) {
-            terminalText.textContent = currentCommand.slice(0, charIndex);
-            charIndex++;
-            setTimeout(typeCommand, 100); // Type next character after 100ms
-        } else {
-            // Wait 1 second before moving to the next command
-            setTimeout(() => {
-                charIndex = 0; // Reset character index
-                commandIndex = (commandIndex + 1) % commands.length; // Move to next command
-                typeCommand(); // Start typing the next command
-            }, 1000); // 1-second pause between commands
-        }
-        document.addEventListener('DOMContentLoaded', function() {
-    // Telegram Bot Configuration for Help Form
-    const botToken = 'YOUR_BOT_TOKEN_HERE';
-    const chatId = 'YOUR_CHAT_ID_HERE';
-
-    // Buy Me a Coffee Button
-    const buyMeCoffeeBtn = document.getElementById('buyMeCoffee');
-    const walletAddress = 'UQC7T3cHqE85iBTvZzXC_jkTEwGu0eCInwLP9gJ5D3qcASPi'; // Your TON wallet
-
-    buyMeCoffeeBtn.addEventListener('click', function() {
-        // Create a TON payment URL (Telegram-compatible)
-        const amount = '1'; // Example: 1 USDT (adjust as needed)
+    // Buy Me a Coffee
+    buyMeCoffeeBtn.addEventListener('click', () => {
+        const amount = '1'; // Adjustable amount in USDT
         const paymentUrl = `https://t.me/wallet?start=send&address=${walletAddress}&amount=${amount}&asset=USDT`;
-
-        // Open the URL in a new tab/window or prompt user
         window.open(paymentUrl, '_blank');
 
-        // Optional: Notify via Telegram bot that someone clicked the button
-        const notifyUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-        fetch(notifyUrl, {
+        // Notify via Telegram
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 chat_id: chatId,
                 text: `Someone clicked 'Buy Me a Coffee' to send ${amount} USDT to ${walletAddress}`
             })
-        })
-        .catch(error => console.error('Notification error:', error));
+        }).catch(error => console.error('Notification error:', error));
     });
 
-    // Modal and Form Handling
-    const helpModal = document.getElementById('helpModal');
-    const helpForm = document.getElementById('helpForm');
-    const helpButtons = document.querySelectorAll('.help-btn');
-    const closeBtn = document.querySelector('.close');
-
-    helpButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            helpModal.style.display = 'block';
-        });
+    // Modal Functionality
+    helpBtns.forEach(btn => {
+        btn.addEventListener('click', () => modal.style.display = 'block');
+    });
+    closeBtn.addEventListener('click', () => modal.style.display = 'none');
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) modal.style.display = 'none';
     });
 
-    closeBtn.addEventListener('click', function() {
-        helpModal.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target === helpModal) {
-            helpModal.style.display = 'none';
-        }
-    });
-
-    helpForm.addEventListener('submit', function(e) {
+    helpForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const message = document.getElementById('helpMessage').value;
-        if (message.trim() === '') {
+        const message = document.getElementById('helpMessage').value.trim();
+        if (!message) {
             alert('Please enter a request!');
             return;
         }
-        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-        fetch(url, {
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ chat_id: chatId, text: `New Help Request:\n${message}` })
@@ -224,9 +69,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.ok) {
                 alert('Request sent successfully!');
                 helpForm.reset();
-                helpModal.style.display = 'none';
+                modal.style.display = 'none';
             } else {
-                alert('Failed to send request: ' + data.description);
+                alert(`Failed to send request: ${data.description}`);
             }
         })
         .catch(error => {
@@ -235,24 +80,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Contact Button Toggle
-    const contactFloat = document.querySelector('.contact-float');
-    const contactToggle = document.querySelector('.contact-toggle');
-    contactToggle.addEventListener('click', function() {
-        contactFloat.classList.toggle('active');
-    });
-    document.addEventListener('click', function(event) {
-        if (!contactFloat.contains(event.target) && contactFloat.classList.contains('active')) {
+    // Contact Float Toggle
+    contactToggle.addEventListener('click', () => contactFloat.classList.toggle('active'));
+    document.addEventListener('click', (e) => {
+        if (!contactFloat.contains(e.target) && contactFloat.classList.contains('active')) {
             contactFloat.classList.remove('active');
         }
     });
 
     // Terminal Text Animation
-    const terminalText = document.querySelector('.terminal-text');
     const commands = ['$ run', '$ exec', '$ load', '$ ping'];
-    let commandIndex = 0;
-    let charIndex = 0;
-
+    let commandIndex = 0, charIndex = 0;
     function typeCommand() {
         const currentCommand = commands[commandIndex];
         if (charIndex <= currentCommand.length) {
@@ -268,63 +106,91 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     typeCommand();
-});
-    }
-
-    // Start the typing animation
-    typeCommand();
-});
-document.addEventListener('DOMContentLoaded', function() {
-    // Existing code (Telegram bot, Buy Me a Coffee, etc.) remains above
 
     // Carousel Logic
-    const carouselInner = document.querySelector('.carousel-inner');
-    const carouselItems = document.querySelectorAll('.carousel-item');
-    const prevBtn = document.querySelector('.carousel-control.prev');
-    const nextBtn = document.querySelector('.carousel-control.next');
-    let currentIndex = 0;
-
+    let currentIndex = 0, autoSlide;
     function updateCarousel() {
         carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
-
-    prevBtn.addEventListener('click', () => {
+    function nextSlide() {
+        currentIndex = (currentIndex < carouselItems.length - 1) ? currentIndex + 1 : 0;
+        updateCarousel();
+    }
+    function prevSlide() {
         currentIndex = (currentIndex > 0) ? currentIndex - 1 : carouselItems.length - 1;
         updateCarousel();
-    });
+    }
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+    autoSlide = setInterval(nextSlide, 5000);
+    carouselInner.addEventListener('mouseover', () => clearInterval(autoSlide));
+    carouselInner.addEventListener('mouseout', () => autoSlide = setInterval(nextSlide, 5000));
 
-    nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex < carouselItems.length - 1) ? currentIndex + 1 : 0;
-        updateCarousel();
-    });
-
-    // Auto-slide every 5 seconds
-    setInterval(() => {
-        currentIndex = (currentIndex < carouselItems.length - 1) ? currentIndex + 1 : 0;
-        updateCarousel();
-    }, 5000);
-
-    // Share Button Logic
-    const shareBtn = document.querySelector('.share-btn');
+    // Share Button
     shareBtn.addEventListener('click', () => {
         const url = window.location.href;
         const title = 'Sustainable AI & Blockchain Insights';
         if (navigator.share) {
-            navigator.share({
-                title: title,
-                text: 'Check out this blog on Sustainable AI and Blockchain Technology!',
-                url: url
-            }).catch(error => console.error('Share error:', error));
+            navigator.share({ title, text: 'Check out this blog on Sustainable AI and Blockchain!', url })
+                .catch(error => console.error('Share error:', error));
         } else {
-            alert('Share this link: ' + url); // Fallback for unsupported browsers
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${url}`, '_blank');
         }
     });
 
-    // New Blog Button (Placeholder - could open a form or link elsewhere)
-    const newBlogBtn = document.getElementById('newBlogBtn');
+    // New Blog Button (Placeholder)
     newBlogBtn.addEventListener('click', () => {
-        alert('Create a new blog post coming soon!'); // Replace with actual functionality
+        alert('Create a new blog post coming soon!');
     });
 
-    // Rest of your existing code (terminal animation, etc.) below
+    // Fetch and Display Analytics
+    async function fetchAnalyticsData() {
+        try {
+            const response = await fetch('/api/analytics');
+            if (!response.ok) throw new Error('Network response was not ok');
+            const data = await response.json();
+            displayAnalytics(data);
+        } catch (error) {
+            console.error('Error fetching analytics data:', error);
+            // Fallback data
+            displayAnalytics({
+                cybersecurity: [10, 20, 15, 25, 30, 35],
+                aiEngineering: [15, 25, 20, 30, 35, 40],
+                dataScience: [20, 30, 25, 35, 40, 45],
+                blockchain: [25, 35, 30, 40, 45, 50]
+            });
+        }
+    }
+
+    function displayAnalytics(data) {
+        const sections = ['cybersecurity', 'aiEngineering', 'dataScience', 'blockchain'];
+        sections.forEach((section, index) => {
+            const content = document.querySelector(`#${section} .analytics-content`);
+            const canvas = document.createElement('canvas');
+            content.appendChild(canvas);
+
+            setTimeout(() => {
+                new Chart(canvas, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: `${section.charAt(0).toUpperCase() + section.slice(1)} Metrics`,
+                            data: data[section] || [10, 20, 15, 25, 30, 35],
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: { y: { beginAtZero: true } },
+                        animation: { duration: 1000, easing: 'easeOutBounce' }
+                    }
+                });
+            }, index * 300); // Staggered animation
+        });
+    }
+
+    fetchAnalyticsData(); // Initialize analytics
 });
