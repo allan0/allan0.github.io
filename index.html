@@ -5,111 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A+ Analytics Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="light-mode">
     <header>
-    <button id="buyMeCoffee" class="btn btn-primary">Buy Me a Coffee</button>
-    <h1>A+ Analytics</h1>
-    <div class="theme-switch-wrapper">
-        <label class="theme-switch" for="checkbox">
-            <input type="checkbox" id="checkbox" />
-            <div class="slider round"></div>
-        </label>
-    </div>
-</header>
-<!-- Blog Section -->
-<section id="blog" class="blog-section">
-    <div class="blog-header">
-        <h2>Sustainable AI & Blockchain Insights</h2>
-        <button id="newBlogBtn" class="btn btn-secondary">New Blog</button>
-    </div>
-    <div class="blog-content">
-        <div class="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item">
-                    <img src="ai.webp" alt="Sustainable AI">
+        <button id="buyMeCoffee" class="btn btn-primary">Buy Me a Coffee</button>
+        <h1>A+ Analytics</h1>
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+            </label>
+        </div>
+    </header>
+
+    <section id="blog" class="blog-section">
+        <div class="blog-header">
+            <h2>Sustainable AI & Blockchain Insights</h2>
+            <button id="newBlogBtn" class="btn btn-secondary">New Blog</button>
+        </div>
+        <div class="blog-content">
+            <div class="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item">
+                        <img src="assets/ai.webp" alt="Sustainable AI" loading="lazy">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="assets/blockchain.webp" alt="Blockchain Tech" loading="lazy">
+                    </div>
+                    <div class="carousel-item">
+                        <video controls>
+                            <source src="assets/How AI & Blockchain are Revolutionizing 2025-03-17.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
                 </div>
-                <div class="carousel-item">
-                    <img src="blockchain.webp" alt="Blockchain Tech">
-                </div>
-                <div class="carousel-item">
-                    <video controls>
-                        <source src="How AI & Blockchain are Revolutionizing 2025-03-17.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
+                <button class="carousel-control prev">❮</button>
+                <button class="carousel-control next">❯</button>
             </div>
-            <button class="carousel-control prev">❮</button>
-            <button class="carousel-control next">❯</button>
+            <div class="blog-text">
+                <h3>The Future of Sustainable AI and Blockchain Technology</h3>
+                <p>As we move toward a greener future, AI and blockchain are revolutionizing sustainability...</p>
+                <button class="share-btn btn">Share</button>
+            </div>
         </div>
-        <div class="blog-text">
-            <h3>The Future of Sustainable AI and Blockchain Technology</h3>
-            <p>...</p>
-            <button class="share-btn btn">Share</button>
-        </div>
-    </div>
-</section>
+    </section>
+
     <main>
-    <section id="cybersecurity" class="analytics-section">
-        <h2>Cybersecurity AI Analytics</h2>
-        <div class="analytics-content">
-            <p class="description">Leveraging AI to detect and mitigate cyber threats in real-time, reducing breach risks by up to 30%.</p>
-            <div class="project-highlight">
-                <h4>Project: SecureNet AI</h4>
-                <p>Developed an AI-driven intrusion detection system that reduced false positives by 25% for a mid-sized fintech firm.</p>
+        <section id="cybersecurity" class="analytics-section">
+            <h2>Cybersecurity AI Analytics</h2>
+            <div class="analytics-content">
+                <p class="description">Leveraging AI to detect and mitigate cyber threats in real-time, reducing breach risks by up to 30%.</p>
+                <div class="project-highlight">
+                    <h4><i class="fas fa-shield-alt"></i> Project: SecureNet AI</h4>
+                    <p>Developed an AI-driven intrusion detection system that reduced false positives by 25% for a mid-sized fintech firm.</p>
+                </div>
+                <canvas id="cyberChart"></canvas>
             </div>
-            <canvas id="cyberChart"></canvas>
-        </div>
-        <button class="help-btn">How may I help you?</button>
-    </section>
+            <button class="help-btn">How may I help you?</button>
+        </section>
 
-    <section id="aiEngineering" class="analytics-section">
-        <h2>AI Engineering Analytics</h2>
-        <div class="analytics-content">
-            <p class="description">Building scalable AI models to optimize performance across industries, from healthcare to logistics.</p>
-            <div class="project-highlight">
-                <h4>Project: HealthPredict</h4>
-                <p>Engineered a predictive AI model for patient outcomes, improving hospital resource allocation by 15%.</p>
+        <section id="aiEngineering" class="analytics-section">
+            <h2>AI Engineering Analytics</h2>
+            <div class="analytics-content">
+                <p class="description">Building scalable AI models to optimize performance across industries, from healthcare to logistics.</p>
+                <div class="project-highlight">
+                    <h4><i class="fas fa-brain"></i> Project: HealthPredict</h4>
+                    <p>Engineered a predictive AI model for patient outcomes, improving hospital resource allocation by 15%.</p>
+                </div>
+                <canvas id="aiChart"></canvas>
             </div>
-            <canvas id="aiChart"></canvas>
-        </div>
-        <button class="help-btn">How may I help you?</button>
-    </section>
+            <button class="help-btn">How may I help you?</button>
+        </section>
 
-    <section id="dataScience" class="analytics-section">
-        <h2>Data Science Analytics</h2>
-        <div class="analytics-content">
-            <p class="description">Transforming raw data into actionable insights with advanced statistical and machine learning techniques.</p>
-            <div class="project-highlight">
-                <h4>Project: RetailFlow</h4>
-                <p>Analyzed customer data to boost sales by 20% through targeted marketing for an e-commerce platform.</p>
+        <section id="dataScience" class="analytics-section">
+            <h2>Data Science Analytics</h2>
+            <div class="analytics-content">
+                <p class="description">Transforming raw data into actionable insights with advanced statistical and machine learning techniques.</p>
+                <div class="project-highlight">
+                    <h4><i class="fas fa-chart-line"></i> Project: RetailFlow</h4>
+                    <p>Analyzed customer data to boost sales by 20% through targeted marketing for an e-commerce platform.</p>
+                </div>
+                <canvas id="dataChart"></canvas>
             </div>
-            <canvas id="dataChart"></canvas>
-        </div>
-        <button class="help-btn">How may I help you?</button>
-    </section>
+            <button class="help-btn">How may I help you?</button>
+        </section>
 
-    <section id="blockchain" class="analytics-section">
-        <h2>Blockchain Technology Analytics</h2>
-        <div class="analytics-content">
-            <p class="description">Harnessing blockchain for secure, transparent systems, from supply chains to digital identity.</p>
-            <div class="project-highlight">
-                <h4>Project: ChainTrace</h4>
-                <p>Implemented a blockchain solution for supply chain tracking, cutting verification time by 40%.</p>
+        <section id="blockchain" class="analytics-section">
+            <h2>Blockchain Technology Analytics</h2>
+            <div class="analytics-content">
+                <p class="description">Harnessing blockchain for secure, transparent systems, from supply chains to digital identity.</p>
+                <div class="project-highlight">
+                    <h4><i class="fas fa-link"></i> Project: ChainTrace</h4>
+                    <p>Implemented a blockchain solution for supply chain tracking, cutting verification time by 40%.</p>
+                </div>
+                <canvas id="blockChart"></canvas>
             </div>
-            <canvas id="blockChart"></canvas>
+            <button class="help-btn">How may I help you?</button>
+        </section>
+    </main>
+
+    <div class="mascot">
+        <div class="speech-bubble">
+            <span class="terminal-text">$ run</span>
+            <span class="cursor">|</span>
         </div>
-        <button class="help-btn">How may I help you?</button>
-    </section>
-</main>
-   <div class="mascot">
-    <div class="speech-bubble">
-        <span class="terminal-text">$ run</span>
-        <span class="cursor">|</span>
+        <img src="assets/mascot.png" alt="A+ Analytics Mascot" class="mascot-image" loading="lazy">
     </div>
-    <img src="mascot.png" alt="A+ Analytics Mascot" class="mascot-image">
-</div>
 
     <footer>
         <p>© 2025 A+ Analytics. All rights reserved.</p>
@@ -129,15 +132,9 @@
 
     <div class="contact-float">
         <div class="contact-content">
-            <a href="mailto:allanmuriithi404@gmail.com" class="contact-item email">
-                <span>Email</span>
-            </a>
-            <a href="https://t.me/NguuAllanMuriithi" target="_blank" class="contact-item telegram">
-                <span>Telegram</span>
-            </a>
-            <a href="https://wa.me/+971503055043" target="_blank" class="contact-item whatsapp">
-                <span>WhatsApp</span>
-            </a>
+            <a href="mailto:allanmuriithi404@gmail.com" class="contact-item email"><span>Email</span></a>
+            <a href="https://t.me/NguuAllanMuriithi" target="_blank" class="contact-item telegram"><span>Telegram</span></a>
+            <a href="https://wa.me/+971503055043" target="_blank" class="contact-item whatsapp"><span>WhatsApp</span></a>
         </div>
         <button class="contact-toggle">Contact Me</button>
     </div>
